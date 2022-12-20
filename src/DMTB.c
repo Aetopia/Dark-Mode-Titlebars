@@ -15,15 +15,13 @@ void WinEventProc(
     __attribute__((unused)) DWORD idEventThread,
     __attribute__((unused)) DWORD dwmsEventTime)
 {
-    if (event == EVENT_OBJECT_CREATE || 
-    event == EVENT_SYSTEM_FOREGROUND)
-    {
+    if (event == EVENT_SYSTEM_FOREGROUND ||
+        event == EVENT_OBJECT_CREATE)
         if (IsWindow(hwnd))
         {
             DwmSetWindowAttribute(hwnd, DWMWA_USE_IMMERSIVE_DARK_MODE, PDarkMode, 4);
             PostMessage(hwnd, WM_THEMECHANGED, 0, 0);
         };
-    };
 }
 
 int main(__attribute__((unused)) int argc, char *argv[])
@@ -35,7 +33,7 @@ int main(__attribute__((unused)) int argc, char *argv[])
         DWMWA_USE_IMMERSIVE_DARK_MODE = 19;
     if (!(IsUserAnAdmin()))
     {
-        ShellExecute(0, "runas", argv[0], NULL, NULL, 0);
+        ShellExecute(0, "runas", argv[0], NULL, NULL, 5);
         return 0;
     };
 
