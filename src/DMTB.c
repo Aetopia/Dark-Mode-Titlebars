@@ -1,5 +1,6 @@
 #include <windows.h>
 #include <dwmapi.h>
+#include <shlobj.h>
 
 static BOOL DarkMode = TRUE;
 static BOOL *PDarkMode = &DarkMode;
