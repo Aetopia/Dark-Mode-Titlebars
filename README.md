@@ -1,6 +1,6 @@
 # Dark Mode Titlebars
 
- Dark mode titlebars everywhere.
+Dark mode titlebars everywhere.
 
 ## Usage
 
