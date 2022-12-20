@@ -15,7 +15,8 @@ void WinEventProc(
     __attribute__((unused)) DWORD idEventThread,
     __attribute__((unused)) DWORD dwmsEventTime)
 {
-    if (event == EVENT_OBJECT_CREATE)
+    if (event == EVENT_OBJECT_CREATE || 
+    event == EVENT_SYSTEM_FOREGROUND)
     {
         if (IsWindow(hwnd))
         {
@@ -32,12 +33,13 @@ int main(__attribute__((unused)) int argc, char *argv[])
     GetVersionEx((OSVERSIONINFO *)&osvi);
     if (osvi.dwBuildNumber >= 17763)
         DWMWA_USE_IMMERSIVE_DARK_MODE = 19;
-    if (!(IsUserAnAdmin())){
+    if (!(IsUserAnAdmin()))
+    {
         ShellExecute(0, "runas", argv[0], NULL, NULL, 0);
         return 0;
     };
 
-    SetWinEventHook(EVENT_OBJECT_CREATE,
+    SetWinEventHook(EVENT_SYSTEM_FOREGROUND,
                     EVENT_OBJECT_CREATE, 0,
                     WinEventProc, 0, 0,
                     WINEVENT_OUTOFCONTEXT);
