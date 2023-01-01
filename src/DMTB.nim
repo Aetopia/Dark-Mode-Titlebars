@@ -58,7 +58,7 @@ if not isMainModule:
 if not isAdmin():
     ShellExecute(0, "runas", getAppFilename(), nil, nil, 5)
     quit(0)
-blacklist = readFile("BlackList.txt").splitLines()
+blacklist = readFile("Blacklist.txt").splitLines()
 EnumWindows(EnumWindowsProc, 0)
 SetWinEventHook(EVENT_OBJECT_CREATE, EVENT_OBJECT_CREATE, 0, WinEventProc, 0, 0, WINEVENT_OUTOFCONTEXT)
 while GetMessage(&msg, 0, 0, 0):
