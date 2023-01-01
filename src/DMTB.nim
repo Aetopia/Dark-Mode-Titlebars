@@ -8,15 +8,9 @@ if isAdmin():
         writeFile("Blacklist.txt", "")
 
 var 
-    DWMWA_USE_IMMERSIVE_DARK_MODE: DWORD = 20
-    osvi: OSVERSIONINFO
     DarkMode = true
     msg: MSG
     blacklist: seq[string]
-
-GetVersionEx(&osvi)
-if (osvi.dwBuildNumber >= 17763):
-    DWMWA_USE_IMMERSIVE_DARK_MODE = 19
 
 proc IsProcessInBlacklist(hwnd: HWND): bool =
     var pid: DWORD 
@@ -43,14 +37,14 @@ proc WinEventProc(hWinEventHook: HWINEVENTHOOK,
         return
     if IsProcessInBlacklist(hwnd):
         return
-    DwmSetWindowAttribute(hwnd, DWMWA_USE_IMMERSIVE_DARK_MODE, &DarkMode, 4)
-    PostMessage(hwnd, WM_THEMECHANGED, 0, 0)
+    if DwmSetWindowAttribute(hwnd, 19, &DarkMode, 4) != S_OK:
+        DwmSetWindowAttribute(hwnd, 20, &DarkMode, 4)
 
 proc EnumWindowsProc(hwnd: HWND, lParam: LPARAM): WINBOOL {.stdcall.} = 
     if IsProcessInBlacklist(hwnd):
         return true 
-    DwmSetWindowAttribute(hwnd, DWMWA_USE_IMMERSIVE_DARK_MODE, &DarkMode, 4)
-    PostMessage(hwnd, WM_THEMECHANGED, 0, 0)
+    if DwmSetWindowAttribute(hwnd, 19, &DarkMode, 4) != S_OK:
+        DwmSetWindowAttribute(hwnd, 20, &DarkMode, 4)
     return true
 
 if not isMainModule:
@@ -58,6 +52,7 @@ if not isMainModule:
 if not isAdmin():
     ShellExecute(0, "runas", getAppFilename(), nil, nil, 5)
     quit(0)
+
 blacklist = readFile("Blacklist.txt").splitLines()
 EnumWindows(EnumWindowsProc, 0)
 SetWinEventHook(EVENT_OBJECT_CREATE, EVENT_OBJECT_CREATE, 0, WinEventProc, 0, 0, WINEVENT_OUTOFCONTEXT)
