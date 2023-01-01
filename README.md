@@ -2,9 +2,9 @@
 
 Dark mode titlebars everywhere.
 
-## Usage
-
 ![Dark Mode Titlebars](https://cdn.discordapp.com/attachments/906577903356112946/1058974357000572979/Screenshot_15.png)
+
+## Usage
 
 1. Download the latest release from [GitHub Releases](https://github.com/Aetopia/Dark-Mode-Titlebars/releases/latest).
 2. Simply run `DMTB.exe` and then open any application.  
