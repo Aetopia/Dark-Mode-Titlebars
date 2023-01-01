@@ -18,8 +18,6 @@ Dark mode titlebars everywhere.
     control.exe
     mspaint.exe
     ```
-    > Applications that use a ribbon interface can cause issues with DMTB.
-    You can disable the ribbon interface for Windows Explorer using [ExplorerPatcher](https://github.com/valinet/ExplorerPatcher).
 
 ## Build
 1. Install Nim.
