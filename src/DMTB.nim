@@ -2,16 +2,17 @@ import winim/[lean, shell, extra]
 import os
 import strutils
 
-setCurrentDir(splitPath(getAppFilename())[0])
-if not fileExists("Blacklist.txt"):
-    writeFile("Blacklist.txt", "")
+if isAdmin():
+    setCurrentDir(splitPath(getAppFilename())[0])
+    if not fileExists("Blacklist.txt"):
+        writeFile("Blacklist.txt", "")
 
 var 
     DWMWA_USE_IMMERSIVE_DARK_MODE: DWORD = 20
     osvi: OSVERSIONINFO
     DarkMode = true
     msg: MSG
-    blacklist = readFile("BlackList.txt").splitLines()
+    blacklist: seq[string]
 
 GetVersionEx(&osvi)
 if (osvi.dwBuildNumber >= 17763):
@@ -57,6 +58,7 @@ if not isMainModule:
 if not isAdmin():
     ShellExecute(0, "runas", getAppFilename(), nil, nil, 5)
     quit(0)
+blacklist = readFile("BlackList.txt").splitLines()
 EnumWindows(EnumWindowsProc, 0)
 SetWinEventHook(EVENT_OBJECT_CREATE, EVENT_OBJECT_CREATE, 0, WinEventProc, 0, 0, WINEVENT_OUTOFCONTEXT)
 while GetMessage(&msg, 0, 0, 0):
